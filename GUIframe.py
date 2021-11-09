@@ -75,8 +75,13 @@ class Appointments(Page):
 class Devices(Page):
    def __init__(self, *args, **kwargs):
     Page.__init__(self, *args, **kwargs)
-    label = tk.Label(self, text="Please Select an Option")
+    label = tk.Label(self, text="Devices")
     label.pack(side="top", fill="both", expand=True)
+    add_device_button=tk.Button(self, text="Add Device").place(x=30, y= 50)
+    remove_devices_button=tk.Button(self, text="Remove Devices").place(x=30, y= 130)
+    edit_devices_button=tk.Button(self, text="Edit Devices").place(x=30, y= 210)
+    add_purchase_button=tk.Button(self, text="Add Purchase").place(x=240, y= 50)
+    view_purchases_button=tk.Button(self, text="View Purchases").place(x=240, y= 130)
 
 
 
