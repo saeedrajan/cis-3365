@@ -20,7 +20,7 @@ class Login(Page):
        user = tk.Text(self, height=1,width=10).place(x=90, y= 50)
        passwd = tk.Label(self, text="Password:").place(x=30, y=130)
        password = tk.Text(self, height=1,width=10).place(x=90, y= 130)
-       tk.Button(self, text="Login").place(x=90, y= 230)
+       login_button=tk.Button(self, text="Login").place(x=90, y= 230)
 
        tk.Label(self,text="First Name")
        tk.Label(self,text="Last Name")
