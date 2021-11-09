@@ -47,6 +47,9 @@ class Clock(Page):
     Page.__init__(self, *args, **kwargs)
     label = tk.Label(self, text="Please Select an Option")
     label.pack(side="top", fill="both", expand=True)
+    clock_in_button=tk.Button(self, text="Clock In").place(x=30, y= 50)
+    clock_out_button=tk.Button(self, text="Clock Out").place(x=30, y= 90)
+    punch_history=tk.Button(self, text="Punch History").place(x=30, y= 130)
 
 
 class Accounts(Page):
