@@ -63,7 +63,7 @@ class Accounts(Page):
     remove_student_button=tk.Button(self, text="Remove Student").place(x=240, y= 130)
 
 
-class Appts(Page):
+class Appointments(Page):
    def __init__(self, *args, **kwargs):
     Page.__init__(self, *args, **kwargs)
     label = tk.Label(self, text="Please Select an Option")
