@@ -45,7 +45,7 @@ class Select(Page):
 class Clock(Page):
    def __init__(self, *args, **kwargs):
     Page.__init__(self, *args, **kwargs)
-    label = tk.Label(self, text="Please Select an Option")
+    label = tk.Label(self, text="Clock In/Out")
     label.pack(side="top", fill="both", expand=True)
     clock_in_button=tk.Button(self, text="Clock In").place(x=30, y= 50)
     clock_out_button=tk.Button(self, text="Clock Out").place(x=30, y= 90)
@@ -55,8 +55,13 @@ class Clock(Page):
 class Accounts(Page):
    def __init__(self, *args, **kwargs):
     Page.__init__(self, *args, **kwargs)
-    label = tk.Label(self, text="Please Select an Option")
+    label = tk.Label(self, text="Accounts")
     label.pack(side="top", fill="both", expand=True)
+    edit_student_button=tk.Button(self, text="Edit Student").place(x=30, y= 50)
+    add_student_button=tk.Button(self, text="Add Student").place(x=30, y= 130)
+    view_students_button=tk.Button(self, text="View Student").place(x=240, y= 50)
+    remove_student_button=tk.Button(self, text="Remove Student").place(x=240, y= 130)
+
 
 class Appts(Page):
    def __init__(self, *args, **kwargs):
