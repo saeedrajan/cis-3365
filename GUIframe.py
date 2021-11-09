@@ -66,8 +66,11 @@ class Accounts(Page):
 class Appointments(Page):
    def __init__(self, *args, **kwargs):
     Page.__init__(self, *args, **kwargs)
-    label = tk.Label(self, text="Please Select an Option")
+    label = tk.Label(self, text="Appointments")
     label.pack(side="top", fill="both", expand=True)
+    add_tickets=tk.Button(self, text="Add Tickets").place(x=30, y= 50)
+    edit_tickets=tk.Button(self, text="Edit Tickets").place(x=30, y= 90)
+    view_tickets=tk.Button(self, text="View Tickets").place(x=30, y= 130)
 
 class Devices(Page):
    def __init__(self, *args, **kwargs):
@@ -84,7 +87,7 @@ class MainView(tk.Frame):
         p2 = Select(self)
         p3 = Clock(self)
         p4 = Accounts(self)
-        p5 = Appts(self)
+        p5 = Appointments(self)
         p6 = Devices(self)
 
 
