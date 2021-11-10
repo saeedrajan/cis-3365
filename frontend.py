@@ -1,12 +1,26 @@
-
-from time import time
 import tkinter as tk                    
-from tkinter import Text, ttk
+from tkinter import Listbox, Text, ttk
 from tkinter.constants import NONE, X
 import pyodbc
 from datetime import datetime, date 
 
+class SQLServer:
 
+    def __init__(self, server, db, uid, pwd, dbdriver='ODBC Driver 17 for SQL Server'):
+        self.dbdriver='DRIVER={'+dbdriver+'};'
+        self.server='SERVER='+server+';'
+        self.db='DATABASE='+db+';'
+        self.uid='UID='+uid+';'
+        self.pwd='PWD='+pwd
+
+    def __enter__(self):
+        self.connstr=self.dbdriver+self.server+self.db+self.uid+self.pwd
+        self.cnxn=pyodbc.connect(self.connstr)
+        self.cursor = self.cnxn.cursor()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cnxn.close()
 
 def login(username, password):
     cursor.execute('SELECT Student_ID, Employee_ID FROM Students WHERE password = ? AND Email = ?', password, username)
@@ -32,6 +46,14 @@ def view():
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
         my_list.append(newrow)
     return my_list
+
+def get_tickets_data():
+    data = []
+    cursor.execute("SELECT Ticket_Number, Ticket_Type_ID, Ticket_Status_ID, Student_ID FROM Ticketing_System")
+    for row in cursor:
+        newrow = [e.strip() if isinstance(e, str) else e for e in row]
+        data.append(newrow)
+    return data
 
 def add_student(first, last, sid, dob, address, city, zipcode, phone, status, campus, email, eid, password, stateID):
 
@@ -152,11 +174,7 @@ def view_tickets():
         result.append(newrow)
     return result
     
-def edit_tickets():
-    ticketnumber=int(input("Please enter the integer Ticket Number value.\n"))
-    print("Please follow the prompts to enter new ticket information:\n")
-    ticketstatus=int(input("Please enter the ticket status identifying integer.\n"))
-    desc= input("Please enter a new description or press enter if not applicable.\n")
+def edit_tickets(ticketstatus, desc, ticketnumber):
     #constuct update query using the user input.
     #Shaylas update query #2
     cursor.execute("""UPDATE Ticketing_System
@@ -408,6 +426,28 @@ class frontend:
         tk.Entry(self.tab3, textvariable=self.rm_sid).place(x=120,y=40)
         tk.Button(self.tab3, text="Remove Student", command=self.rm_student).place(x=20,y=60)
 
+    def view_tickets_btn_function(self):
+        result = get_tickets_data()
+
+        # print result
+        listbox = tk.Listbox(self.tab4, width=1000)
+        listbox.insert(0, ("Ticket Number", "Ticket Type", "Ticket Status", "Student ID"))
+        for row in range(1,len(result)):
+            listbox.insert(row, result[row])
+        listbox.pack(side="bottom")
+
+    def edit_ticket_btn(self):
+        edit_tickets(self.dob_var.get(),self.add_var.get(),self.sid_var.get())
+
+    def edit_ticket(self):
+        tk.Label(self.tab4, text="Ticket Number").place(x=20, y=40)
+        tk.Entry(self.tab4, width=10, textvariable=self.sid_var).place(x=90, y=40)
+        tk.Label(self.tab4, text="Ticket Status").place(x=20, y=130)
+        tk.Entry(self.tab4,width=10, textvariable=self.dob_var).place(x=90, y=130)
+        tk.Label(self.tab4, text="Description").place(x=20, y=160)
+        tk.Entry(self.tab4,width=10, textvariable=self.add_var).place(x=90, y=160)
+        tk.Button(self.tab4,text="Submit",command=self.edit_ticket_btn).place(x=90, y=220)
+        
 
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
@@ -418,7 +458,7 @@ class frontend:
     def appointments_tab(self):
         add_tickets=tk.Button(self.tab4, text="Add Tickets").place(x=30, y= 50)
         edit_tickets=tk.Button(self.tab4, text="Edit Tickets").place(x=30, y= 90)
-        view_tickets=tk.Button(self.tab4, text="View Tickets").place(x=30, y= 130)
+        view_tickets=tk.Button(self.tab4, text="View Tickets", command=self.view_tickets_btn_function).place(x=30, y= 130)
 
     def devices_tab(self):
         add_device_button=tk.Button(self.tab5, text="Add Device").place(x=30, y= 50)
