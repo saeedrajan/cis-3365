@@ -94,14 +94,13 @@ def view_purchases():
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
     return newrow
 
-def add_device(deviceID, serial, campus, student, idate, rdate, availid, modelid):    
-    cursor.execute("INSERT INTO Device_Inventory (Device_ID, Serial_Number, Campus_ID, Student_ID, Date_Issued, Return_By, Avail_ID, Model_ID) VALUES (?,?,?,?,?,?,?, ?) ",
-    deviceID, serial, campus, student, idate, rdate, availid, modelid)
+def add_device(serial, campus, student, idate, rdate, availid, modelid):    
+    cursor.execute("INSERT INTO Device_Inventory (Serial_Number, Campus_ID, Student_ID, Date_Issued, Return_By, Avail_ID, Model_ID) VALUES (?,?,?,?,?,?, ?) ",
+    serial, campus, student, idate, rdate, availid, modelid)
     cursor.commit()
     return
 
-def remove_device():
-    deviceNumber=int(input("Please enter the device number of the object to be deleted"))
+def remove_device(deviceNumber):
     cursor.execute("DELETE FROM Device_Inventory WHERE Device_ID =?",
     deviceNumber)
     cursor.commit()
@@ -461,11 +460,9 @@ class frontend:
         tk.Button(self.tab4,text="Submit",command=self.edit_ticket_btn).place(x=90, y=220)
 
     def add_device_btn(self):
-        add_device(self.sid_var.get(), self.dob_var.get(),self.add_var.get(),self.eid_var.get(),self.phone_var.get(),self.password_var.get(),self.cam_var.get(),self.state_var.get())
+        add_device(self.dob_var.get(),self.add_var.get(),self.eid_var.get(),self.phone_var.get(),self.password_var.get(),self.cam_var.get(),self.state_var.get())
 
     def add_device_(self):
-        tk.Label(self.tab5, text="Device ID").place(x=200, y=40)
-        tk.Entry(self.tab5, width=10, textvariable=self.sid_var).place(x=290, y=40)
         tk.Label(self.tab5, text="Serial").place(x=200, y=60)
         tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=290, y=60)
         tk.Label(self.tab5, text="Campus").place(x=200, y=80)
@@ -483,6 +480,16 @@ class frontend:
         
         tk.Button(self.tab5,text="Submit",command=self.add_device_btn).place(x=200, y=200)
 
+    def remove_devices_btn(self):
+        device = self.dob_var.get()
+        remove_device(device)
+
+    def remove_devices_button(self):
+        tk.Label(self.tab5, text="Serial").place(x=200, y=60)
+        tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=290, y=60)
+        tk.Button(self.tab5,text="Submit",command=self.add_device_btn).place(x=200, y=80)
+        pass
+
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
         add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
@@ -490,18 +497,13 @@ class frontend:
         remove_student_button=tk.Button(self.tab3, text="Remove Student", command=self.remove_student_btn).place(x=270, y= 10)
 
     def appointments_tab(self):
-<<<<<<< HEAD
-        add_tickets=tk.Button(self.tab4, text="Add Tickets", command=self.add_tickets_btn).place(x=30, y= 50)
-        edit_tickets=tk.Button(self.tab4, text="Edit Tickets").place(x=30, y= 90)
-=======
         add_tickets=tk.Button(self.tab4, text="Add Tickets").place(x=30, y= 50)
         edit_tickets=tk.Button(self.tab4, text="Edit Tickets", command=self.edit_ticket).place(x=30, y= 90)
->>>>>>> 1d2681476328bac3b61f5f39d673276d8ae468dc
         view_tickets=tk.Button(self.tab4, text="View Tickets", command=self.view_tickets_btn_function).place(x=30, y= 130)
 
     def devices_tab(self):
         add_device_button=tk.Button(self.tab5, text="Add Device", command=self.add_device_).place(x=20, y= 10)
-        remove_devices_button=tk.Button(self.tab5, text="Remove Devices").place(x=20, y= 40)
+        remove_devices_button=tk.Button(self.tab5, text="Remove Devices", command=self.remove_devices_button).place(x=20, y= 40)
         edit_devices_button=tk.Button(self.tab5, text="Edit Devices").place(x=20, y= 70)
         add_purchase_button=tk.Button(self.tab5, text="Add Purchase").place(x=20, y= 100)
         view_purchases_button=tk.Button(self.tab5, text="View Purchases").place(x=20, y= 130)
