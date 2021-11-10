@@ -192,13 +192,8 @@ def edit_tickets():
     cursor.commit()
     return
 
-def add_tickets():
-    ticketNumber=int(input("Please enter the ticket number integer. \n"))
-    date_Opened=input("Please input the date the ticket was opened \n")
-    ticket_type_ID=int(input("Please input the ticket type ID integer. \n"))
-    ticket_status_ID=int(input("Please input the ticket status ID Integer. \n"))
-    description=input("Please input the ticket description or press enter if not applicable\n")
-    student_ID=int(input("Please enter the student ID relevant to the ticket request.\n"))
+def add_tickets(ticketNumber,date_Opened,ticket_type_ID,ticket_status_ID,description,student_ID):
+
     cursor.execute("INSERT INTO Ticketing_System VALUES (?,?,?,?,?,?)",
     ticketNumber,date_Opened,ticket_type_ID,ticket_status_ID,description,student_ID)
     cursor.commit()    
@@ -252,6 +247,15 @@ class frontend:
         self.email_e_var=tk.StringVar()
         self.password_var=tk.StringVar()
         self.rm_sid = tk.IntVar()
+        # Add Ticket Fields
+        self.ticket_number_var = tk.StringVar()
+        self.date_opened_var = tk.StringVar()
+        self.ticket_type_ID_var = tk.IntVar()
+        self.ticket_status_ID_var = tk.IntVar()
+        self.description_var = tk.StringVar()
+        self.student_ID_var = tk.IntVar()
+
+
     def get_root(self):
         return self.root
 
@@ -344,8 +348,8 @@ class frontend:
 
         edit_students_values = tk.Button(self.tab3, text="Edit Student", command=self.submit_btn).place(x=230, y= 150)
         # back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
-        
-        
+
+
     def add_student_btn(self):
         sid_lb = tk.Label(self.tab3, text="Student ID").place(x=20, y=40)
         sid_en = tk.Entry(self.tab3, width=10, textvariable=self.sid_var).place(x=90, y=40)
@@ -433,6 +437,40 @@ class frontend:
         tk.Entry(self.tab3, textvariable=self.rm_sid).place(x=120,y=40)
         tk.Button(self.tab3, text="Remove Student", command=self.rm_student).place(x=20,y=60)
 
+
+    def add_tickets_submission_btn(self):
+        ticket_number = self.ticket_number_var.get()
+        date_opened = self.date_opened_var.get()
+        ticket_type_ID = self.ticket_type_ID_var.get()
+        ticket_status_ID = self.ticket_status_ID_var.get()
+        description = self.description_var.get()
+        student_ID = self.student_ID_var.get()
+        
+        add_tickets(ticket_number, date_opened, ticket_type_ID, ticket_status_ID, description, student_ID)
+        
+    def add_tickets_btn(self):
+        # Ticket Number Field
+        tk.Label(self.tab4, text='Ticket Number').place(x=120, y=40)
+        tk.Entry(self.tab4, width=10, textvariable=self.ticket_number_var).place(x=260, y=40)
+        # Date Opened field
+        tk.Label(self.tab4, text='Date Opened').place(x=120, y=70)
+        tk.Entry(self.tab4, width=10, textvariable=self.date_opened_var).place(x=260, y=70)
+        # Ticket Type ID field
+        tk.Label(self.tab4, text='Ticket Type').place(x=120, y=100)
+        tk.Entry(self.tab4, width=10, textvariable=self.ticket_type_ID_var).place(x=260, y=100)
+        # Ticket Status ID field
+        tk.Label(self.tab4, text='Ticket Status').place(x=120, y=130)
+        tk.Entry(self.tab4, width=10, textvariable=self.ticket_status_ID_var).place(x=260, y=130)
+        # Description field
+        tk.Label(self.tab4, text='Description').place(x=120, y=160)
+        tk.Entry(self.tab4, width=10, textvariable=self.description_var).place(x=260, y=160)
+        # Student ID field
+        tk.Label(self.tab4, text='Student ID').place(x=120, y=190)
+        tk.Entry(self.tab4, width=10, textvariable=self.student_ID_var).place(x=260, y=190)
+
+        # Button to submit the values
+        tk.Button(self.tab4, text="Submit Ticket", command=self.add_tickets_submission_btn).place(x=230, y= 250)
+
     def view_tickets_btn_function(self):
         result = get_tickets_data()
 
@@ -451,7 +489,7 @@ class frontend:
         remove_student_button=tk.Button(self.tab3, text="Remove Student", command=self.remove_student_btn).place(x=280, y= 10)
 
     def appointments_tab(self):
-        add_tickets=tk.Button(self.tab4, text="Add Tickets").place(x=30, y= 50)
+        add_tickets=tk.Button(self.tab4, text="Add Tickets", command=self.add_tickets_btn).place(x=30, y= 50)
         edit_tickets=tk.Button(self.tab4, text="Edit Tickets").place(x=30, y= 90)
         view_tickets=tk.Button(self.tab4, text="View Tickets", command=self.view_tickets_btn_function).place(x=30, y= 130)
 
