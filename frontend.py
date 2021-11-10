@@ -43,11 +43,12 @@ def remove_students():
     return True
 
 def view():
-    cursor.execute("SELECT * FROM Students")
+    my_list = []
+    cursor.execute("SELECT Fname, Lname, Student_ID FROM Students")
     for row in cursor:
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
-        return newrow
-    return
+        my_list.append(newrow)
+    return my_list
 
 def add_student(first, last, sid, dob, address, city, zipcode, phone, status, campus, email, eid, password, stateID):
 
@@ -405,22 +406,18 @@ class frontend:
 
     def view_student_btn(self):
         result = view()
-        lb = tk.Label(self.tab2,text=self.in_time).place(x=90,y=50)
+        lb = tk.Label(self.tab3,text=self.in_time).place(x=90,y=50)
         
         # print(result)
         listbox = tk.Listbox(self.tab3, width=1000)
-        listbox.insert(0, ("Date", "Time In", "Time Out"))
-        #for row in range(1,len(result)):
-            #listbox.insert(row, result[row])
+        listbox.insert(0, ("Fname", "Lname", "Student ID"))
+        for row in range(1,len(result)):
+            listbox.insert(row, result[row])
         listbox.pack(side="bottom")
     
-    def hello_saeed(self):
-        pass
-
     def remove_student_btn(self):
         pass
-    def hello_ken():
-        pass
+
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
         add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
