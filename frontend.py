@@ -4,23 +4,6 @@ from tkinter.constants import NONE, X
 import pyodbc
 from datetime import datetime, date 
 
-class SQLServer:
-
-    def __init__(self, server, db, uid, pwd, dbdriver='ODBC Driver 17 for SQL Server'):
-        self.dbdriver='DRIVER={'+dbdriver+'};'
-        self.server='SERVER='+server+';'
-        self.db='DATABASE='+db+';'
-        self.uid='UID='+uid+';'
-        self.pwd='PWD='+pwd
-
-    def __enter__(self):
-        self.connstr=self.dbdriver+self.server+self.db+self.uid+self.pwd
-        self.cnxn=pyodbc.connect(self.connstr)
-        self.cursor = self.cnxn.cursor()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.cnxn.close()
 
 def login(username, password):
     cursor.execute('SELECT Student_ID, Employee_ID FROM Students WHERE password = ? AND Email = ?', password, username)
@@ -111,16 +94,7 @@ def view_purchases():
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
     return newrow
 
-def add_device():
-    deviceID=int(input("Please enter the device number (integer) \n"))
-    serial=input("Please enter the 10 character Device Serial. \n")
-    campus=int(input("Please enter the corresponding campus ID integer \n"))
-    student= int(input("If a student is borrowing this device, please enter their student ID. Otherwise, press ENTER.\n"))
-    idate=input("Please enter the date of issuance, or press enter if not applicable. YY-MM-DD\n")
-    rdate=input("Please enter the date scheduled for return, or press enter if not applicable. YY-MM-DD\n")
-    availid=int(input("Please enter the availability ID Integer, or press enter if not applicable\n"))
-    modelid=int(input("Please enter the Model ID Integer, or press enter if not applicable\n"))
-    
+def add_device(deviceID, serial, campus, student, idate, rdate, availid, modelid):    
     cursor.execute("INSERT INTO Device_Inventory (Device_ID, Serial_Number, Campus_ID, Student_ID, Date_Issued, Return_By, Avail_ID, Model_ID) VALUES (?,?,?,?,?,?,?, ?) ",
     deviceID, serial, campus, student, idate, rdate, availid, modelid)
     cursor.commit()
@@ -447,7 +421,29 @@ class frontend:
         tk.Label(self.tab4, text="Description").place(x=20, y=160)
         tk.Entry(self.tab4,width=10, textvariable=self.add_var).place(x=90, y=160)
         tk.Button(self.tab4,text="Submit",command=self.edit_ticket_btn).place(x=90, y=220)
+
+    def add_device_btn(self):
+        add_device(self.sid_var.get(), self.dob_var.get(),self.add_var.get(),self.eid_var.get(),self.phone_var.get(),self.password_var.get(),self.cam_var.get(),self.state_var.get())
+
+    def add_device_(self):
+        tk.Label(self.tab5, text="Device ID").place(x=20, y=40)
+        tk.Entry(self.tab5, width=10, textvariable=self.sid_var).place(x=90, y=40)
+        tk.Label(self.tab5, text="Serial").place(x=20, y=130)
+        tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=90, y=130)
+        tk.Label(self.tab5, text="Campus").place(x=20, y=160)
+        tk.Entry(self.tab5,width=10, textvariable=self.add_var).place(x=90, y=160)
+        tk.Label(self.tab5, text="Student ID").place(x=20, y=40)
+        tk.Entry(self.tab5, width=10, textvariable=self.eid_var).place(x=90, y=40)
+        tk.Label(self.tab5, text="Issued Date").place(x=20, y=130)
+        tk.Entry(self.tab5,width=10, textvariable=self.phone_var).place(x=90, y=130)
+        tk.Label(self.tab5, text="Return By").place(x=20, y=160)
+        tk.Entry(self.tab5,width=10, textvariable=self.password_var).place(x=90, y=160)
+        tk.Label(self.tab5, text="Available ID").place(x=20, y=130)
+        tk.Entry(self.tab5,width=10, textvariable=self.cam_var).place(x=90, y=130)
+        tk.Label(self.tab5, text="Model ID").place(x=20, y=160)
+        tk.Entry(self.tab5,width=10, textvariable=self.state_var).place(x=90, y=160)
         
+        tk.Button(self.tab5,text="Submit",command=self.add_device_btn).place(x=90, y=220)
 
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
@@ -457,15 +453,15 @@ class frontend:
 
     def appointments_tab(self):
         add_tickets=tk.Button(self.tab4, text="Add Tickets").place(x=30, y= 50)
-        edit_tickets=tk.Button(self.tab4, text="Edit Tickets").place(x=30, y= 90)
+        edit_tickets=tk.Button(self.tab4, text="Edit Tickets", command=self.edit_ticket).place(x=30, y= 90)
         view_tickets=tk.Button(self.tab4, text="View Tickets", command=self.view_tickets_btn_function).place(x=30, y= 130)
 
     def devices_tab(self):
-        add_device_button=tk.Button(self.tab5, text="Add Device").place(x=30, y= 50)
-        remove_devices_button=tk.Button(self.tab5, text="Remove Devices").place(x=30, y= 130)
-        edit_devices_button=tk.Button(self.tab5, text="Edit Devices").place(x=30, y= 210)
-        add_purchase_button=tk.Button(self.tab5, text="Add Purchase").place(x=240, y= 50)
-        view_purchases_button=tk.Button(self.tab5, text="View Purchases").place(x=240, y= 130)
+        add_device_button=tk.Button(self.tab5, text="Add Device", command=self.add_device_).place(x=20, y= 10)
+        remove_devices_button=tk.Button(self.tab5, text="Remove Devices").place(x=40, y= 10)
+        edit_devices_button=tk.Button(self.tab5, text="Edit Devices").place(x=60, y= 10)
+        add_purchase_button=tk.Button(self.tab5, text="Add Purchase").place(x=240, y= 10)
+        view_purchases_button=tk.Button(self.tab5, text="View Purchases").place(x=240, y= 10)
 
     def clock_in_btn(self):
         self.in_time, self.in_date = clock_in()
@@ -500,14 +496,14 @@ class frontend:
         
         self.email_var.set("")
         self.passwd_var.set("")
-        if self.sid is None:
-            self.login_tab()
-        else:
-            self.auth()
-            self.clock_in_out_tab()
-            self.accounts_tab()
-            self.appointments_tab()
-            self.devices_tab()
+        # if self.sid is None:
+        #     self.login_tab()
+        # else:
+        self.auth()
+        self.clock_in_out_tab()
+        self.accounts_tab()
+        self.appointments_tab()
+        self.devices_tab()
 
     def login_tab(self):
         
@@ -538,6 +534,11 @@ if __name__ == "__main__":
     now = datetime.now()
     today = date.today()
     gui.login_tab()
+    gui.auth()
+    gui.clock_in_out_tab()
+    gui.accounts_tab()
+    gui.appointments_tab()
+    gui.devices_tab()
 
 gui.get_root().mainloop()
 
