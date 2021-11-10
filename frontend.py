@@ -267,7 +267,7 @@ class frontend:
         self.tabControl.pack(expand = 1, fill ="both")
 
     def submit_btn(self):
-        sid=self.email_var.get()
+        sid=self.sid_var.get()
         first=self.first_var.get()
         last = self.last_var.get()
         dob= self.dob_var.get()
@@ -324,7 +324,7 @@ class frontend:
         cam_lb = tk.Label(self.tab3, text="Campus ID").place(x=20, y=310)
         cam_en = tk.Entry(self.tab3,width=10, textvariable=self.cam_var).place(x=90, y=310)
         email_lb = tk.Label(self.tab3, text="Email").place(x=20, y=340)
-        email_en = tk.Entry(self.tab3,width=10, textvariable=self.email_var).place(x=90, y=340)
+        email_en = tk.Entry(self.tab3,width=10, textvariable=self.email_e_var).place(x=90, y=340)
         eid_lb = tk.Label(self.tab3, text="Employee ID").place(x=160, y=40)
         eid_en = tk.Entry(self.tab3,width=10, textvariable=self.eid_var).place(x=230, y=40)
         passwd_lb = tk.Label(self.tab3, text="Password").place(x=160, y=70)
