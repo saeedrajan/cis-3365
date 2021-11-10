@@ -37,9 +37,9 @@ def reset_password():
     cursor.execute("UPDATE Students SET PASSWORD = ? WHERE Email = ?;", password, email)
     return
 
-def remove_students():
-    sid = input("Enter Student ID to remove")
+def remove_students(sid):
     cursor.execute("DELETE FROM Students WHERE Student_ID = ?", sid)
+    cursor.commit()
     return True
 
 def view():
@@ -243,6 +243,7 @@ class frontend:
         self.stat_var=tk.StringVar()
         self.email_e_var=tk.StringVar()
         self.password_var=tk.StringVar()
+        self.rm_sid = tk.IntVar()
     def get_root(self):
         return self.root
 
@@ -334,7 +335,7 @@ class frontend:
         state_en = tk.Entry(self.tab3,width=10, textvariable=self.state_var).place(x=230, y=100)
 
         edit_students_values = tk.Button(self.tab3, text="Edit Student", command=self.submit_btn).place(x=230, y= 150)
-        back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
+        # back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
         
         
     def add_student_btn(self):
@@ -415,14 +416,26 @@ class frontend:
             listbox.insert(row, result[row])
         listbox.pack(side="bottom")
     
+<<<<<<< HEAD
     def remove_student_btn(self):
         pass
+=======
+    def rm_student(self):
+        sid = self.rm_sid.get()
+        remove_students(sid)
+
+    def remove_student_btn(self):
+        tk.Label(self.tab3, text="Enter Student ID").place(x=20, y=40)
+        tk.Entry(self.tab3, textvariable=self.rm_sid).place(x=120,y=40)
+        tk.Button(self.tab3, text="Remove Student", command=self.rm_student).place(x=20,y=60)
+
+>>>>>>> 5cc3f7f97c6388971525fbc3c0219cd7051dfe5f
 
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
         add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
         view_students_button=tk.Button(self.tab3, text="View Student", command=self.view_student_btn).place(x=175, y= 10)
-        remove_student_button=tk.Button(self.tab3, text="Remove Student").place(x=280, y= 10)
+        remove_student_button=tk.Button(self.tab3, text="Remove Student", command=self.remove_student_btn).place(x=280, y= 10)
 
     def appointments_tab(self):
         add_tickets=tk.Button(self.tab4, text="Add Tickets").place(x=30, y= 50)
