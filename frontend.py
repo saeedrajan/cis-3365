@@ -7,23 +7,6 @@ import pyodbc
 from datetime import datetime, date 
 
 
-class SQLServer:
-
-    def __init__(self, server, db, uid, pwd, dbdriver='ODBC Driver 17 for SQL Server'):
-        self.dbdriver='DRIVER={'+dbdriver+'};'
-        self.server='SERVER='+server+';'
-        self.db='DATABASE='+db+';'
-        self.uid='UID='+uid+';'
-        self.pwd='PWD='+pwd
-
-    def __enter__(self):
-        self.connstr=self.dbdriver+self.server+self.db+self.uid+self.pwd
-        self.cnxn=pyodbc.connect(self.connstr)
-        self.cursor = self.cnxn.cursor()
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.cnxn.close()
 
 def login(username, password):
     cursor.execute('SELECT Student_ID, Employee_ID FROM Students WHERE password = ? AND Email = ?', password, username)
@@ -416,10 +399,6 @@ class frontend:
             listbox.insert(row, result[row])
         listbox.pack(side="bottom")
     
-<<<<<<< HEAD
-    def remove_student_btn(self):
-        pass
-=======
     def rm_student(self):
         sid = self.rm_sid.get()
         remove_students(sid)
@@ -429,7 +408,6 @@ class frontend:
         tk.Entry(self.tab3, textvariable=self.rm_sid).place(x=120,y=40)
         tk.Button(self.tab3, text="Remove Student", command=self.rm_student).place(x=20,y=60)
 
->>>>>>> 5cc3f7f97c6388971525fbc3c0219cd7051dfe5f
 
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
