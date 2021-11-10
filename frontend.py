@@ -417,9 +417,10 @@ class frontend:
     def hello_saeed(self):
         pass
 
-    # def remove_student_btn(self):
-
-
+    def remove_student_btn(self):
+        pass
+    def hello_ken():
+        pass
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
         add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
