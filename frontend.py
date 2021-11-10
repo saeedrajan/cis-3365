@@ -1,6 +1,6 @@
 import tkinter as tk                    
 from tkinter import IntVar, Listbox, Text, ttk
-from tkinter.constants import NONE, X
+from tkinter.constants import CURRENT, NONE, X
 import pyodbc
 from datetime import datetime, date 
 
@@ -247,12 +247,22 @@ class frontend:
         return self.loginbutton
 
     def clean(self):
-        for wid in self.tab2.winfo_children(),self.tab3.winfo_children(),self.tab4.winfo_children(),self.tab5.winfo_children():
+        for wid in self.tab2.winfo_children():
             wid.destroy()
+        for wid in self.tab3.winfo_children():
+            wid.destroy()
+        for wid in self.tab4.winfo_children():
+            wid.destroy()
+        for wid in self.tab5.winfo_children():
+            wid.destroy()
+        for wid in self.tab6.winfo_children():
+            wid.destroy()
+        
         self.clock_in_out_tab()
         self.accounts_tab()
         self.appointments_tab()
-        self.devices_tab()    
+        self.devices_tab()  
+        self.master()  
             
 
 
@@ -313,7 +323,7 @@ class frontend:
         
     def edit_student_btn(self):
        
-        
+        self.clean()
         sid_lb = tk.Label(self.tab3, text="Student ID").place(x=20, y=40)
         sid_en = tk.Entry(self.tab3, width=10, textvariable=self.sid_var).place(x=90, y=40)
         f_lb = tk.Label(self.tab3, text="First Name").place(x=20, y=70)
@@ -348,6 +358,7 @@ class frontend:
 
 
     def add_student_btn(self):
+        self.clean()
         sid_lb = tk.Label(self.tab3, text="Student ID").place(x=20, y=40)
         sid_en = tk.Entry(self.tab3, width=10, textvariable=self.sid_var).place(x=90, y=40)
         f_lb = tk.Label(self.tab3, text="First Name").place(x=20, y=70)
@@ -415,6 +426,7 @@ class frontend:
         self.state_var.set("")
 
     def view_student_btn(self):
+        self.clean()
         result = view()
         lb = tk.Label(self.tab3,text=self.in_time).place(x=90,y=50)
         
@@ -430,6 +442,7 @@ class frontend:
         remove_students(sid)
 
     def remove_student_btn(self):
+        self.clean()
         tk.Label(self.tab3, text="Enter Student ID").place(x=20, y=40)
         tk.Entry(self.tab3, textvariable=self.rm_sid).place(x=120,y=40)
         tk.Button(self.tab3, text="Remove Student", command=self.rm_student).place(x=20,y=60)
@@ -470,6 +483,7 @@ class frontend:
         tk.Button(self.tab4, text="Submit Ticket", command=self.add_tickets_submission_btn).place(x=230, y= 250)
 
     def view_tickets_btn_function(self):
+        self.clean()
         result = get_tickets_data()
 
         # print result
@@ -483,18 +497,20 @@ class frontend:
         edit_tickets(self.dob_var.get(),self.add_var.get(),self.sid_var.get())
 
     def edit_ticket(self):
-        tk.Label(self.tab4, text="Ticket Number").place(x=20, y=40)
-        tk.Entry(self.tab4, width=10, textvariable=self.sid_var).place(x=90, y=40)
-        tk.Label(self.tab4, text="Ticket Status").place(x=20, y=130)
-        tk.Entry(self.tab4,width=10, textvariable=self.dob_var).place(x=90, y=130)
-        tk.Label(self.tab4, text="Description").place(x=20, y=160)
-        tk.Entry(self.tab4,width=10, textvariable=self.add_var).place(x=90, y=160)
-        tk.Button(self.tab4,text="Submit",command=self.edit_ticket_btn).place(x=90, y=220)
+        self.clean()
+        tk.Label(self.tab4, text="Ticket Number").place(x=200, y=60)
+        tk.Entry(self.tab4, width=10, textvariable=self.sid_var).place(x=290, y=100)
+        tk.Label(self.tab4, text="Ticket Status").place(x=200, y=130)
+        tk.Entry(self.tab4,width=10, textvariable=self.dob_var).place(x=290, y=130)
+        tk.Label(self.tab4, text="Description").place(x=200, y=160)
+        tk.Entry(self.tab4,width=10, textvariable=self.add_var).place(x=290, y=160)
+        tk.Button(self.tab4,text="Submit",command=self.edit_ticket_btn).place(x=200, y=220)
 
     def add_device_btn(self):
         add_device(self.dob_var.get(),self.add_var.get(),self.eid_var.get(),self.phone_var.get(),self.password_var.get(),self.cam_var.get(),self.state_var.get())
 
     def add_device_(self):
+        self.clean()
         tk.Label(self.tab5, text="Serial").place(x=200, y=60)
         tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=290, y=60)
         tk.Label(self.tab5, text="Campus").place(x=200, y=80)
@@ -513,10 +529,12 @@ class frontend:
         tk.Button(self.tab5,text="Submit",command=self.add_device_btn).place(x=200, y=200)
 
     def remove_devices_btn(self):
+        self.clean()
         device = self.dob_var.get()
         remove_device(device)
 
     def remove_devices_button(self):
+        self.clean()
         tk.Label(self.tab5, text="Device ID").place(x=200, y=60)
         tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=290, y=60)
         tk.Button(self.tab5,text="Submit",command=self.remove_devices_btn).place(x=200, y=90)
@@ -524,6 +542,7 @@ class frontend:
         edit_deivce(self.dob_var.get(), self.add_var.get, self.eid_var.get(), self.phone_var.get(), self.password_var.get(),self.cam_var.get(), self.state_var.get(), self.sid_var.get())
 
     def edit_devices_button(self):
+        self.clean()
         tk.Label(self.tab5, text="Deivce ID").place(x=200, y=40)
         tk.Entry(self.tab5,width=10, textvariable=self.sid_var).place(x=290, y=40)
         tk.Label(self.tab5, text="Serial").place(x=200, y=60)
@@ -545,6 +564,7 @@ class frontend:
 
 
     def view_purchases_btn_function(self):
+        self.clean()
         result = get_device_purchases_data()
 
         # print result
@@ -555,6 +575,7 @@ class frontend:
         listbox.pack(side="bottom")
 
     def add_purchases_submission_btn(self):
+        self.clean()
         serial_number = self.serial_number_var.get()
         po_number = self.po_number_var.get()
         purchase_date = self.purchase_date_var.get()
@@ -565,6 +586,7 @@ class frontend:
         add_purchase(serial_number, po_number, purchase_date, type_id, make_id, unit_price)
     
     def show_add_purchase_fields(self):
+        self.clean()
         # Serial Number field
         tk.Label(self.tab5, text='Serial Number').place(x=120, y=40)
         tk.Entry(self.tab5, width=10, textvariable=self.serial_number_var).place(x=260, y=40)
@@ -614,7 +636,7 @@ class frontend:
         time_lb = tk.Label(self.tab2, text=self.out_time).place(x=100, y=90)
 
     def puch_btn(self):
-        self.clean(self.tab2)
+        self.clean()
         result = puch_hist(self.sid)
         lb = tk.Label(self.tab2,text=self.in_time).place(x=90,y=50)
         
@@ -648,6 +670,28 @@ class frontend:
         self.appointments_tab()
         self.devices_tab()
 
+    def master_update(self):
+        # self.clean()
+        print(self.variable.get())
+        result = cursor.execute("SELECT * FROM {}".format(self.variable.get()))
+        listbox = tk.Listbox(self.tab6, width=1000)
+
+        for row in result:
+            l =+ 1
+            listbox.insert(l, row)
+        listbox.pack(side="bottom")
+    def master(self):
+        OPTIONS = []
+        
+        d = cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME <> 'sys.diagrams'")
+        self.variable = tk.StringVar(self.tab6)
+        for x in d:
+            for y in x:
+                OPTIONS.append(x[0])
+
+        tk.OptionMenu(self.tab6, self.variable, *OPTIONS).pack()
+        tk.Button(self.tab6, text="Update", command=self.master_update).place(x=20,y=40)
+        
     def login_tab(self):
         
         name = tk.Label(self.tab1, text="Email:").place(x=30, y=50)
@@ -682,6 +726,7 @@ if __name__ == "__main__":
     gui.accounts_tab()
     gui.appointments_tab()
     gui.devices_tab()
+    gui.master()
 
 gui.get_root().mainloop()
 
