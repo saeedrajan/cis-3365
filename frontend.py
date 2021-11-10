@@ -1,5 +1,5 @@
 import tkinter as tk                    
-from tkinter import Listbox, Text, ttk
+from tkinter import IntVar, Listbox, Text, ttk
 from tkinter.constants import NONE, X
 import pyodbc
 from datetime import datetime, date 
@@ -33,6 +33,14 @@ def view():
 def get_tickets_data():
     data = []
     cursor.execute("SELECT Ticket_Number, Ticket_Type_ID, Ticket_Status_ID, Student_ID FROM Ticketing_System")
+    for row in cursor:
+        newrow = [e.strip() if isinstance(e, str) else e for e in row]
+        data.append(newrow)
+    return data
+
+def get_device_purchases_data():
+    data = []
+    cursor.execute("SELECT Serial_Number, Type_ID, Make_ID FROM Device_Purchases")
     for row in cursor:
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
         data.append(newrow)
@@ -155,6 +163,13 @@ def add_tickets(ticketNumber,date_Opened,ticket_type_ID,ticket_status_ID,descrip
     cursor.commit()    
     return True
 
+def add_purchase(serial_number, po_number, purchase_date, type_id, make_id, unit_price):
+
+    cursor.execute("INSERT INTO Device_Purchases VALUES (?,?,?,?,?,?)",
+    serial_number, po_number, purchase_date, type_id, make_id, unit_price)
+    cursor.commit()    
+    return True
+
 def puch_hist(sid):
     result = []
     cursor.execute("SELECT Date, Clock_In, Clock_out FROM TimeClock WHERE Student_ID = ?", sid)
@@ -210,7 +225,13 @@ class frontend:
         self.ticket_status_ID_var = tk.IntVar()
         self.description_var = tk.StringVar()
         self.student_ID_var = tk.IntVar()
-
+        # Add Purchase Fields
+        self.serial_number_var = tk.IntVar()
+        self.po_number_var = tk.IntVar()
+        self.purchase_date_var = tk.StringVar()
+        self.ticket_type_ID_var = tk.IntVar()
+        self.make_id_var = tk.IntVar()
+        self.unit_price_var = tk.IntVar()
 
 
     def get_root(self):
@@ -523,6 +544,49 @@ class frontend:
         tk.Button(self.tab5,text="Submit",command=self.edit_devices_btn).place(x=200, y=200)
 
 
+    def view_purchases_btn_function(self):
+        result = get_device_purchases_data()
+
+        # print result
+        listbox = tk.Listbox(self.tab5, width=1000)
+        listbox.insert(0, ("Serial_Number", "Type_ID", "Make_ID"))
+        for row in range(1,len(result)):
+            listbox.insert(row, result[row])
+        listbox.pack(side="bottom")
+
+    def add_purchases_submission_btn(self):
+        serial_number = self.serial_number_var.get()
+        po_number = self.po_number_var.get()
+        purchase_date = self.purchase_date_var.get()
+        type_id = self.ticket_type_ID_var.get()
+        make_id = self.make_id_var.get()
+        unit_price = self.unit_price_var.get()
+        
+        add_purchase(serial_number, po_number, purchase_date, type_id, make_id, unit_price)
+    
+    def show_add_purchase_fields(self):
+        # Serial Number field
+        tk.Label(self.tab5, text='Serial Number').place(x=120, y=40)
+        tk.Entry(self.tab5, width=10, textvariable=self.serial_number_var).place(x=260, y=40)
+        # PO Number field
+        tk.Label(self.tab5, text='PO Number').place(x=120, y=70)
+        tk.Entry(self.tab5, width=10, textvariable=self.po_number_var).place(x=260, y=70)
+        # Purchase Date field
+        tk.Label(self.tab5, text='Purchase date').place(x=120, y=100)
+        tk.Entry(self.tab5, width=10, textvariable=self.purchase_date_var).place(x=260, y=100)
+        # Type ID field 
+        tk.Label(self.tab5, text='Type ID').place(x=120, y=130)
+        tk.Entry(self.tab5, width=10, textvariable=self.ticket_type_ID_var).place(x=260, y=130)
+        # Make ID field
+        tk.Label(self.tab5, text='Make ID').place(x=120, y=160)
+        tk.Entry(self.tab5, width=10, textvariable=self.make_id_var).place(x=260, y=160)
+        # Unit Price
+        tk.Label(self.tab5, text='Unit Price').place(x=120, y=190)
+        tk.Entry(self.tab5, width=10, textvariable=self.unit_price_var).place(x=260, y=190)
+
+        # Button to submit the values
+        tk.Button(self.tab5, text="Submit Purchase", command=self.add_purchases_submission_btn).place(x=230, y= 250)
+
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
         add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
@@ -537,9 +601,9 @@ class frontend:
     def devices_tab(self):
         add_device_button=tk.Button(self.tab5, text="Add Device", command=self.add_device_).place(x=20, y= 10)
         remove_devices_button=tk.Button(self.tab5, text="Remove Devices", command=self.remove_devices_button).place(x=20, y= 40)
-        edit_devices_button=tk.Button(self.tab5, text="Edit Devices",command=self.edit_devices_button).place(x=20, y= 70)
-        add_purchase_button=tk.Button(self.tab5, text="Add Purchase").place(x=20, y= 100)
-        view_purchases_button=tk.Button(self.tab5, text="View Purchases").place(x=20, y= 130)
+        edit_devices_button=tk.Button(self.tab5, text="Edit Devices", command=self.edit_devices_button).place(x=20, y= 70)
+        add_purchase_button=tk.Button(self.tab5, text="Add Purchase", command=self.show_add_purchase_fields).place(x=20, y= 100)
+        view_purchases_button=tk.Button(self.tab5, text="View Purchases", command=self.view_purchases_btn_function).place(x=20, y= 130)
 
     def clock_in_btn(self):
         self.in_time, self.in_date = clock_in()
