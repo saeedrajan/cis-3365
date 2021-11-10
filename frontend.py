@@ -1,7 +1,7 @@
 
 from time import time
 import tkinter as tk                    
-from tkinter import Text, ttk
+from tkinter import Listbox, Text, ttk
 from tkinter.constants import NONE, X
 import pyodbc
 from datetime import datetime, date 
@@ -49,6 +49,14 @@ def view():
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
         my_list.append(newrow)
     return my_list
+
+def get_tickets_data():
+    data = []
+    cursor.execute("SELECT Ticket_Number, Ticket_Type_ID, Ticket_Status_ID, Student_ID FROM Ticketing_System")
+    for row in cursor:
+        newrow = [e.strip() if isinstance(e, str) else e for e in row]
+        data.append(newrow)
+    return data
 
 def add_student(first, last, sid, dob, address, city, zipcode, phone, status, campus, email, eid, password, stateID):
 
@@ -416,10 +424,6 @@ class frontend:
             listbox.insert(row, result[row])
         listbox.pack(side="bottom")
     
-<<<<<<< HEAD
-    def remove_student_btn(self):
-        pass
-=======
     def rm_student(self):
         sid = self.rm_sid.get()
         remove_students(sid)
@@ -429,7 +433,16 @@ class frontend:
         tk.Entry(self.tab3, textvariable=self.rm_sid).place(x=120,y=40)
         tk.Button(self.tab3, text="Remove Student", command=self.rm_student).place(x=20,y=60)
 
->>>>>>> 5cc3f7f97c6388971525fbc3c0219cd7051dfe5f
+    def view_tickets_btn_function(self):
+        result = get_tickets_data()
+
+        # print result
+        listbox = tk.Listbox(self.tab4, width=1000)
+        listbox.insert(0, ("Ticket Number", "Ticket Type", "Ticket Status", "Student ID"))
+        for row in range(1,len(result)):
+            listbox.insert(row, result[row])
+        listbox.pack(side="bottom")
+
 
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
@@ -440,7 +453,7 @@ class frontend:
     def appointments_tab(self):
         add_tickets=tk.Button(self.tab4, text="Add Tickets").place(x=30, y= 50)
         edit_tickets=tk.Button(self.tab4, text="Edit Tickets").place(x=30, y= 90)
-        view_tickets=tk.Button(self.tab4, text="View Tickets").place(x=30, y= 130)
+        view_tickets=tk.Button(self.tab4, text="View Tickets", command=self.view_tickets_btn_function).place(x=30, y= 130)
 
     def devices_tab(self):
         add_device_button=tk.Button(self.tab5, text="Add Device").place(x=30, y= 50)
