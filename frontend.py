@@ -43,7 +43,7 @@ def remove_students():
     return True
 
 def view():
-    cursor.execute("SLELECT * FROM Students")
+    cursor.execute("SELECT * FROM Students")
     for row in cursor:
         newrow = [e.strip() if isinstance(e, str) else e for e in row]
         return newrow
@@ -403,7 +403,16 @@ class frontend:
         self.password_var.set("")
         self.state_var.set("")
 
-    # def view_student_btn(self):
+    def view_student_btn(self):
+        result = view()
+        lb = tk.Label(self.tab2,text=self.in_time).place(x=90,y=50)
+        
+        # print(result)
+        listbox = tk.Listbox(self.tab3, width=1000)
+        listbox.insert(0, ("Date", "Time In", "Time Out"))
+        #for row in range(1,len(result)):
+            #listbox.insert(row, result[row])
+        listbox.pack(side="bottom")
 
     # def remove_student_btn(self):
 
@@ -411,7 +420,7 @@ class frontend:
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
         add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
-        view_students_button=tk.Button(self.tab3, text="View Student").place(x=175, y= 10)
+        view_students_button=tk.Button(self.tab3, text="View Student", command=self.view_student_btn).place(x=175, y= 10)
         remove_student_button=tk.Button(self.tab3, text="Remove Student").place(x=280, y= 10)
 
     def appointments_tab(self):
