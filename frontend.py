@@ -225,9 +225,28 @@ class frontend:
     def get_login_btn(self):
         return self.loginbutton
 
-    def clean(self, tab):
-        for wid in tab.winfo_children():
+    def clean(self):
+        for wid in self.tab2.winfo_children(),self.tab3.winfo_children(),self.tab4.winfo_children(),self.tab5.winfo_children():
             wid.destroy()
+        self.clock_in_out_tab()
+        self.accounts_tab()
+        self.appointments_tab()
+        self.devices_tab()    
+            
+
+
+            # wid.destroy()
+
+            # if tab.winfo_name() == "Clock In/Out":
+            #     self.clock_in_out_tab()
+            # elif tab.winfo_name() == "Accounts":
+            #     self.accounts_tab()
+            # elif tab.winfo_name() == "Appointments":
+            #     self.appointments_tab()
+            # elif tab.winfo_name() == "Devices":
+            #     self.devices_tab()
+        
+
     def auth(self):
         self.tab1.destroy()        
         self.tabControl.add(self.tab2, text ='Clock In/Out')
@@ -406,6 +425,7 @@ class frontend:
         add_tickets(ticket_number, date_opened, ticket_type_ID, ticket_status_ID, description, student_ID)
         
     def add_tickets_btn(self):
+        self.clean()
         # Ticket Number Field
         tk.Label(self.tab4, text='Ticket Number').place(x=120, y=40)
         tk.Entry(self.tab4, width=10, textvariable=self.ticket_number_var).place(x=260, y=40)
@@ -530,6 +550,7 @@ class frontend:
         time_lb = tk.Label(self.tab2, text=self.out_time).place(x=100, y=90)
 
     def puch_btn(self):
+        self.clean(self.tab2)
         result = puch_hist(self.sid)
         lb = tk.Label(self.tab2,text=self.in_time).place(x=90,y=50)
         
