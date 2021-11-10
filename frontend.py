@@ -413,6 +413,9 @@ class frontend:
         #for row in range(1,len(result)):
             #listbox.insert(row, result[row])
         listbox.pack(side="bottom")
+    
+    def hello_saeed(self):
+        pass
 
     # def remove_student_btn(self):
 
