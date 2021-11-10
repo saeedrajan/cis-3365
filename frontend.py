@@ -49,21 +49,7 @@ def view():
         return newrow
     return
 
-def add_student():
-    first = 'Hank'
-    last = 'James'
-    sid = 12697
-    dob = '2003-12-1'
-    address = '74874 Atlantic Ave'
-    city = 'Cleveland'
-    zipcode = 77327
-    phone = '2815558967'
-    status = 'senior'
-    campus = 1
-    email = 'setsg@gmail.com'
-    eid = 2
-    password = 'password'
-    stateID = 49
+def add_student(first, last, sid, dob, address, city, zipcode, phone, status, campus, email, eid, password, stateID):
 
     cursor.execute("""
     INSERT INTO Students(Fname,Lname,Student_ID,Date_Of_Birth,Address,City,Zipcode,Phone,Status,Campus_ID,Email,Employee_ID,password,State_ID)
@@ -348,11 +334,74 @@ class frontend:
 
         edit_students_values = tk.Button(self.tab3, text="Edit Student", command=self.submit_btn).place(x=230, y= 150)
         back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
-
-
         
         
-    # def add_student_btn(self):        
+    def add_student_btn(self):
+        sid_lb = tk.Label(self.tab3, text="Student ID").place(x=20, y=40)
+        sid_en = tk.Entry(self.tab3, width=10, textvariable=self.sid_var).place(x=90, y=40)
+        f_lb = tk.Label(self.tab3, text="First Name").place(x=20, y=70)
+        first_en = tk.Entry(self.tab3, width=10, textvariable=self.first_var).place(x=90, y=70)
+        last_lb = tk.Label(self.tab3, text="Last Name").place(x=20, y=100)
+        last_en = tk.Entry(self.tab3,width=10, textvariable=self.last_var).place(x=90, y=100)
+        dob_lb = tk.Label(self.tab3, text="Date of Birth").place(x=20, y=130)
+        dob_en = tk.Entry(self.tab3,width=10, textvariable=self.dob_var).place(x=90, y=130)
+        add_lb = tk.Label(self.tab3, text="Address").place(x=20, y=160)
+        add_en = tk.Entry(self.tab3,width=10, textvariable=self.add_var).place(x=90, y=160)
+        city_lb = tk.Label(self.tab3, text="City").place(x=20, y=190)
+        city_en = tk.Entry(self.tab3,width=10, textvariable=self.city_var).place(x=90, y=190)
+        zip_lb = tk.Label(self.tab3, text="Zipcode").place(x=20, y=220)
+        zip_en = tk.Entry(self.tab3,width=10, textvariable=self.zip_var).place(x=90, y=220)
+        phone_lb = tk.Label(self.tab3, text="Phone").place(x=20, y=250)
+        phone_en = tk.Entry(self.tab3,width=10, textvariable=self.phone_var).place(x=90, y=250)
+        stat = tk.Label(self.tab3, text="Status").place(x=20, y=280)
+        stat_en = tk.Entry(self.tab3,width=10, textvariable=self.stat_var).place(x=90, y=280)
+        cam_lb = tk.Label(self.tab3, text="Campus ID").place(x=20, y=310)
+        cam_en = tk.Entry(self.tab3,width=10, textvariable=self.cam_var).place(x=90, y=310)
+        email_lb = tk.Label(self.tab3, text="Email").place(x=20, y=340)
+        email_en = tk.Entry(self.tab3,width=10, textvariable=self.email_e_var).place(x=90, y=340)
+        eid_lb = tk.Label(self.tab3, text="Employee ID").place(x=160, y=40)
+        eid_en = tk.Entry(self.tab3,width=10, textvariable=self.eid_var).place(x=230, y=40)
+        passwd_lb = tk.Label(self.tab3, text="Password").place(x=160, y=70)
+        passwd_en = tk.Entry(self.tab3,width=10, textvariable=self.password_var).place(x=230, y=70)
+        state_lb = tk.Label(self.tab3, text="State ID").place(x=160, y=100)
+        state_en = tk.Entry(self.tab3,width=10, textvariable=self.state_var).place(x=230, y=100)
+
+        edit_students_values = tk.Button(self.tab3, text="Add Student", command=self.add_student_submission_btn).place(x=230, y= 150)
+        #back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
+
+    def add_student_submission_btn(self):
+        sid=self.sid_var.get()
+        first=self.first_var.get()
+        last = self.last_var.get()
+        dob= self.dob_var.get()
+        add= self.add_var.get()
+        city = self.city_var.get()
+        zip = self.zip_var.get()
+        phone = self.phone_var.get()
+        stat = self.stat_var.get()
+        cam = self.cam_var.get()
+        email = self.email_e_var.get()
+        eid = self.eid_var.get()
+        password = self.password_var.get()
+        state = self.state_var.get()
+        
+        add_student(first, last, sid, dob, add, city, zip, phone, stat, cam, email, eid, password, state)
+            
+            
+        self.sid_var.set("")
+        self.first_var.set("")
+        self.last_var.set("")
+        self.dob_var.set("")
+        self.add_var.set("")
+        self.city_var.set("")
+        self.zip_var.set("")
+        self.phone_var.set("")
+        self.stat_var.set("")
+        self.cam_var.set("")
+        self.email_e_var.set("")
+        self.eid_var.set("")
+        self.password_var.set("")
+        self.state_var.set("")
 
     # def view_student_btn(self):
 
@@ -361,7 +410,7 @@ class frontend:
 
     def accounts_tab(self):
         edit_student_button=tk.Button(self.tab3, text="Edit Student", command=self.edit_student_btn).place(x=20, y= 10)
-        add_student_button=tk.Button(self.tab3, text="Add Student").place(x=100, y= 10)
+        add_student_button=tk.Button(self.tab3, text="Add Student", command=self.add_student_btn).place(x=100, y= 10)
         view_students_button=tk.Button(self.tab3, text="View Student").place(x=175, y= 10)
         remove_student_button=tk.Button(self.tab3, text="Remove Student").place(x=280, y= 10)
 
