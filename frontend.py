@@ -233,6 +233,14 @@ class frontend:
         self.make_id_var = tk.IntVar()
         self.unit_price_var = tk.IntVar()
 
+        self.serial = tk.StringVar()
+        self.campus = tk.StringVar()
+        self.idate = tk.StringVar()
+        self.rdate = tk.StringVar()
+        self.student = tk.IntVar()
+        self.modelid= tk.IntVar()
+        self.device= tk.IntVar()
+        self.availid = tk.IntVar()
 
     def get_root(self):
         return self.root
@@ -538,27 +546,27 @@ class frontend:
         tk.Label(self.tab5, text="Device ID").place(x=200, y=60)
         tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=290, y=60)
         tk.Button(self.tab5,text="Submit",command=self.remove_devices_btn).place(x=200, y=90)
-    def edit_devices_btn(self):        
-        edit_deivce(self.dob_var.get(), self.add_var.get, self.eid_var.get(), self.phone_var.get(), self.password_var.get(),self.cam_var.get(), self.state_var.get(), self.sid_var.get())
+    def edit_devices_btn(self):
+        edit_deivce(self.serial.get(), self.campus.get(), self.student.get(), self.idate.get(), self.rdate.get(),self.availid.get(), self.modelid.get(), self.device.get())
 
     def edit_devices_button(self):
         self.clean()
         tk.Label(self.tab5, text="Deivce ID").place(x=200, y=40)
-        tk.Entry(self.tab5,width=10, textvariable=self.sid_var).place(x=290, y=40)
+        tk.Entry(self.tab5,width=10, textvariable=self.device).place(x=290, y=40)
         tk.Label(self.tab5, text="Serial").place(x=200, y=60)
-        tk.Entry(self.tab5,width=10, textvariable=self.dob_var).place(x=290, y=60)
+        tk.Entry(self.tab5,width=10, textvariable=self.serial).place(x=290, y=60)
         tk.Label(self.tab5, text="Campus").place(x=200, y=80)
-        tk.Entry(self.tab5,width=10, textvariable=self.add_var).place(x=290, y=80)
+        tk.Entry(self.tab5,width=10, textvariable=self.campus).place(x=290, y=80)
         tk.Label(self.tab5, text="Student ID").place(x=200, y=100)
-        tk.Entry(self.tab5, width=10, textvariable=self.eid_var).place(x=290, y=100)
+        tk.Entry(self.tab5, width=10, textvariable=self.student).place(x=290, y=100)
         tk.Label(self.tab5, text="Issued Date").place(x=200, y=120)
-        tk.Entry(self.tab5,width=10, textvariable=self.phone_var).place(x=290, y=120)
+        tk.Entry(self.tab5,width=10, textvariable=self.idate).place(x=290, y=120)
         tk.Label(self.tab5, text="Return By").place(x=200, y=140)
-        tk.Entry(self.tab5,width=10, textvariable=self.password_var).place(x=290, y=140)
+        tk.Entry(self.tab5,width=10, textvariable=self.rdate).place(x=290, y=140)
         tk.Label(self.tab5, text="Available ID").place(x=200, y=160)
-        tk.Entry(self.tab5,width=10, textvariable=self.cam_var).place(x=290, y=160)
+        tk.Entry(self.tab5,width=10, textvariable=self.availid).place(x=290, y=160)
         tk.Label(self.tab5, text="Model ID").place(x=200, y=180)
-        tk.Entry(self.tab5,width=10, textvariable=self.state_var).place(x=290, y=180)
+        tk.Entry(self.tab5,width=10, textvariable=self.modelid).place(x=290, y=180)
         
         tk.Button(self.tab5,text="Submit",command=self.edit_devices_btn).place(x=200, y=200)
 
