@@ -184,7 +184,7 @@ def puch_hist(sid):
 class frontend:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Tab Widget")
+        self.root.title("LinkTech")
         self.root.wm_geometry("400x400")
         self.tabControl = ttk.Notebook(self.root)
         self.tab1 = ttk.Frame(self.tabControl)
@@ -388,8 +388,8 @@ class frontend:
         state_lb = tk.Label(self.tab3, text="State ID").place(x=160, y=100)
         state_en = tk.Entry(self.tab3,width=10, textvariable=self.state_var).place(x=230, y=100)
 
-        edit_students_values = tk.Button(s+f.tab3, text="Add Student", command=self.add_student_submission_btn).place(x=230, y= 150)
-        #back = tk.Button(self.tab3, text=+ack", command=self.clean(self.tab3)).place(x=230, y= 160)
+        edit_students_values = tk.Button(self.tab3, text="Add Student", command=self.add_student_submission_btn).place(x=230, y= 150)
+        #back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
 
     def add_student_submission_btn(self):
         sid=self.sid_var.get()
@@ -404,10 +404,10 @@ class frontend:
         cam = self.cam_var.get()
         email = self.email_e_var.get()
         eid = self.eid_var.get()
-        password = self.password_var.get()+
+        password = self.password_var.get()
         state = self.state_var.get()
         
-        add_student(first, last, sid, dob,+dd, city, zip, phone, stat, cam, email, eid, password, state)
+        add_student(first, last, sid, dob, add, city, zip, phone, stat, cam, email, eid, password, state)
             
             
         self.sid_var.set("")
@@ -428,13 +428,13 @@ class frontend:
     def view_student_btn(self):
         self.clean()
         result = view()
-        lb = tk.Label(self.tab3,text=self.+_time).place(x=90,y=50)
+        lb = tk.Label(self.tab3,text=self.in_time).place(x=90,y=50)
         
         # print(result)
-        listbox = tk.Listbox(self.tab3, wi+h=1000)
-        listbox.insert(0, ("Fname", "Lname+ "Student ID"))
+        listbox = tk.Listbox(self.tab3, width=1000)
+        listbox.insert(0, ("Fname", "Lname", "Student ID"))
         for row in range(1,len(result)):
-            listbox.insert(row, result[row+
+            listbox.insert(row, result[row])
         listbox.pack(side="bottom")
     
     def rm_student(self):
@@ -661,15 +661,15 @@ class frontend:
         
         self.email_var.set("")
         self.passwd_var.set("")
-        # if self.sid is None:
-        #     self.login_tab()
-        # else:
-        self.auth()
-        self.clock_in_out_tab()
-        self.accounts_tab()
-        self.appointments_tab()
-        self.devices_tab()
-
+        if self.sid is None:
+            self.login_tab()
+        else:
+            self.auth()
+            self.clock_in_out_tab()
+            self.accounts_tab()
+            self.appointments_tab()
+            self.devices_tab()
+            self.master()
     def master_update(self):
         result = cursor.execute("SELECT * FROM {}".format(self.variable.get()))
         listbox = tk.Listbox(self.tab6, width=1000)
@@ -678,6 +678,7 @@ class frontend:
             l =+ 1
             listbox.insert(l, row)
         listbox.pack(side="bottom")
+
     def master(self):
         OPTIONS = []
         
@@ -698,13 +699,6 @@ class frontend:
         user = tk.Entry(self.tab1, textvariable=self.email_var).place(x=90, y= 50)
         password = tk.Entry(self.tab1, textvariable=self.passwd_var).place(x=90, y= 130)
         login_button=tk.Button(self.tab1, text="Login", command = self.login_btn).place(x=90, y= 230)
-    # def logout_btn(self):
-    #     self.tabControl.destroy()
-    #     self.tab1 = ttk.Frame(self.tabControl)
-    #     self.tabControl.add(self.tab1, text="Login")
-    #     self.tabControl.pack(expand = 1, fill ="both")  
-    # def logout_tab(self):
-    #     logout = tk.Button(self.tab6, text="Logout", command=self.logout_btn).place(x=90, y=130)
 
 gui = frontend()
 if __name__ == "__main__":
@@ -719,26 +713,7 @@ if __name__ == "__main__":
     now = datetime.now()
     today = date.today()
     gui.login_tab()
-    gui.auth()
-    gui.clock_in_out_tab()
-    gui.accounts_tab()
-    gui.appointments_tab()
-    gui.devices_tab()
-    gui.master()
-
+   
 gui.get_root().mainloop()
 
 
-# ttk.Label(tab1, 
-#           text ="Welcome to \
-#           GeeksForGeeks").grid(column = 0, 
-#                                row = 0,
-#                                padx = 30,
-#                                pady = 30)  
-# ttk.Label(tab2,
-#           text ="Lets dive into the\
-#           world of computers").grid(column = 0,
-#                                     row = 0, 
-#                                     padx = 30,
-#                                     pady = 30)
-  
