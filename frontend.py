@@ -283,7 +283,7 @@ class frontend:
         self.tabControl.add(self.tab3, text ='Accounts')
         self.tabControl.add(self.tab4, text ='Appointments')
         self.tabControl.add(self.tab5, text ='Devices')
-        self.tabControl.add(self.tab6, text="Logout")
+        self.tabControl.add(self.tab6, text="Master")
         self.tabControl.pack(expand = 1, fill ="both")
 
     def submit_btn(self):
@@ -689,8 +689,9 @@ class frontend:
                 OPTIONS.append(x[0])
 
         tk.OptionMenu(self.tab6, self.variable, *OPTIONS).pack()
-        tk.Button(self.tab6, text="Update", command=self.master_update).place(x=20,y=40)
-        
+        tk.Button(self.tab6, text="Update", command=self.master_update).place(x=10,y=0)
+        tk.Button(self.tab6, text="Clear", command=self.clean).place(x=80,y=0)
+
     def login_tab(self):
         
         name = tk.Label(self.tab1, text="Email:").place(x=30, y=50)
