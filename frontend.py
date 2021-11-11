@@ -264,20 +264,19 @@ class frontend:
         self.devices_tab()  
         self.master()  
             
-
-
-            # wid.destroy()
-
-            # if tab.winfo_name() == "Clock In/Out":
-            #     self.clock_in_out_tab()
-            # elif tab.winfo_name() == "Accounts":
-            #     self.accounts_tab()
-            # elif tab.winfo_name() == "Appointments":
-            #     self.appointments_tab()
-            # elif tab.winfo_name() == "Devices":
-            #     self.devices_tab()
+    def drop_down(self, tab, var, column, table, x_corr, y_corr):
+        OPTIONS = []
         
+        d = cursor.execute("SELECT {} FROM {}".format(column,table))
+        self.drop_down_var = tk.StringVar(tab)
+        for x in d:
+            for y in x:
+                OPTIONS.append(x[0])
 
+        menu = tk.OptionMenu(tab, var, *OPTIONS)
+        menu.pack()
+        menu.place(x=x_corr,y=y_corr)
+    
     def auth(self):
         self.tab1.destroy()        
         self.tabControl.add(self.tab2, text ='Clock In/Out')
@@ -325,7 +324,8 @@ class frontend:
        
         self.clean()
         sid_lb = tk.Label(self.tab3, text="Student ID").place(x=20, y=40)
-        sid_en = tk.Entry(self.tab3, width=10, textvariable=self.sid_var).place(x=90, y=40)
+        self.drop_down(self.tab3, self.sid_var, "Student_ID", "Students", 80,40)
+        # sid_en = tk.Entry(self.tab3, width=10, textvariable=self.sid_var).place(x=90, y=40)
         f_lb = tk.Label(self.tab3, text="First Name").place(x=20, y=70)
         first_en = tk.Entry(self.tab3, width=10, textvariable=self.first_var).place(x=90, y=70)
         last_lb = tk.Label(self.tab3, text="Last Name").place(x=20, y=100)
@@ -388,8 +388,8 @@ class frontend:
         state_lb = tk.Label(self.tab3, text="State ID").place(x=160, y=100)
         state_en = tk.Entry(self.tab3,width=10, textvariable=self.state_var).place(x=230, y=100)
 
-        edit_students_values = tk.Button(self.tab3, text="Add Student", command=self.add_student_submission_btn).place(x=230, y= 150)
-        #back = tk.Button(self.tab3, text="Back", command=self.clean(self.tab3)).place(x=230, y= 160)
+        edit_students_values = tk.Button(s+f.tab3, text="Add Student", command=self.add_student_submission_btn).place(x=230, y= 150)
+        #back = tk.Button(self.tab3, text=+ack", command=self.clean(self.tab3)).place(x=230, y= 160)
 
     def add_student_submission_btn(self):
         sid=self.sid_var.get()
@@ -404,10 +404,10 @@ class frontend:
         cam = self.cam_var.get()
         email = self.email_e_var.get()
         eid = self.eid_var.get()
-        password = self.password_var.get()
+        password = self.password_var.get()+
         state = self.state_var.get()
         
-        add_student(first, last, sid, dob, add, city, zip, phone, stat, cam, email, eid, password, state)
+        add_student(first, last, sid, dob,+dd, city, zip, phone, stat, cam, email, eid, password, state)
             
             
         self.sid_var.set("")
@@ -428,13 +428,13 @@ class frontend:
     def view_student_btn(self):
         self.clean()
         result = view()
-        lb = tk.Label(self.tab3,text=self.in_time).place(x=90,y=50)
+        lb = tk.Label(self.tab3,text=self.+_time).place(x=90,y=50)
         
         # print(result)
-        listbox = tk.Listbox(self.tab3, width=1000)
-        listbox.insert(0, ("Fname", "Lname", "Student ID"))
+        listbox = tk.Listbox(self.tab3, wi+h=1000)
+        listbox.insert(0, ("Fname", "Lname+ "Student ID"))
         for row in range(1,len(result)):
-            listbox.insert(row, result[row])
+            listbox.insert(row, result[row+
         listbox.pack(side="bottom")
     
     def rm_student(self):
@@ -671,8 +671,6 @@ class frontend:
         self.devices_tab()
 
     def master_update(self):
-        # self.clean()
-        print(self.variable.get())
         result = cursor.execute("SELECT * FROM {}".format(self.variable.get()))
         listbox = tk.Listbox(self.tab6, width=1000)
 
